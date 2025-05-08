@@ -14,9 +14,10 @@ config.read('config.ini')
 ssh_host = config.get('ssh', 'host')
 ssh_username = config.get('ssh', 'username')
 ssh_password = config.get('ssh', 'password')
-
+elog_path = config.get('Paths', 'elog_path')
 flask_host = config.get('flask', 'host')
 flask_port = config.getint('flask', 'port')
+
 app = Flask(__name__)
 sock = Sock(app)
 
@@ -173,7 +174,7 @@ def terminal(ws):
             command = ws.receive()
             logging.info(f"执行命令: {command}")
             # 执行命令并获取输出
-            stdout, stderr = ssh_agent.execute_command(f'cd /root/Custom_Script/Notion-Halo/elog && {command}')
+            stdout, stderr = ssh_agent.execute_command(f'cd "{elog_path}" && {command}')
 
             buffer = b""
             while True:
